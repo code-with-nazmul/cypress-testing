@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widgets - Test Automation Practice</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .page-header {
+            background: #007bff;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .breadcrumb {
+            margin-top: 0.5rem;
+        }
+        .breadcrumb a {
+            color: #cce7ff;
+            text-decoration: none;
+        }
+        .nav-sidebar {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .nav-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-sidebar li {
+            margin-bottom: 0.5rem;
+        }
+        .nav-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .content-area {
+            display: none;
+            padding: 1rem;
+        }
+        .content-area.active {
+            display: block;
+        }
+        .section-content {
+            margin-bottom: 2rem;
+        }
+        
+        /* Accordion Styles */
+        .accordion {
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .accordion-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .accordion-header:hover {
+            background: #e9ecef;
+        }
+        .accordion-header.active {
+            background: #007bff;
+            color: white;
+        }
+        .accordion-header::after {
+            content: '+';
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .accordion-header.active::after {
+            content: '-';
+        }
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .accordion-content.active {
+            max-height: 200px;
+            padding: 15px 20px;
+        }
+        
+        /* Auto Complete Styles */
+        .autocomplete-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+        }
+        .autocomplete-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .autocomplete-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        .autocomplete-item:hover, .autocomplete-item.highlighted {
+            background: #e9ecef;
+        }
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Date Picker Styles */
+        .date-picker-container {
+            margin-bottom: 20px;
+        }
+        .date-input {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 200px;
+        }
+        .time-input {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 150px;
+            margin-left: 10px;
+        }
+        
+        /* Slider Styles */
+        .slider-container {
+            margin: 20px 0;
+        }
+        .slider {
+            width: 100%;
+            max-width: 400px;
+        }
+        .slider input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #dee2e6;
+            outline: none;
+            border-radius: 4px;
+        }
+        .slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .slider input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+        }
+        .slider-value {
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        /* Progress Bar Styles */
+        .progress-container {
+            margin: 20px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            max-width: 400px;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        .progress-controls {
+            margin-top: 10px;
+        }
+        .progress-controls button {
+            margin-right: 10px;
+            padding: 8px 16px;
+            border: 1px solid #007bff;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .progress-controls button:hover {
+            background: #0056b3;
+        }
+        
+        /* Tabs Styles */
+        .tabs {
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .tab-list {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .tab-list li {
+            flex: 1;
+        }
+        .tab-list button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-right: 1px solid #dee2e6;
+            transition: background-color 0.2s;
+        }
+        .tab-list button:last-child {
+            border-right: none;
+        }
+        .tab-list button:hover {
+            background: #e9ecef;
+        }
+        .tab-list button.active {
+            background: #007bff;
+            color: white;
+        }
+        .tab-content {
+            padding: 20px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .tooltip-button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 140px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+        .tooltip-top .tooltiptext {
+            bottom: 125%;
+            left: 50%;
+            margin-left: -70px;
+        }
+        .tooltip-bottom .tooltiptext {
+            top: 125%;
+            left: 50%;
+            margin-left: -70px;
+        }
+        .tooltip-left .tooltiptext {
+            top: 50%;
+            right: 125%;
+            margin-top: -15px;
+        }
+        .tooltip-right .tooltiptext {
+            top: 50%;
+            left: 125%;
+            margin-top: -15px;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Menu Styles */
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background: white;
+            max-width: 200px;
+        }
+        .menu li {
+            position: relative;
+        }
+        .menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #495057;
+            text-decoration: none;
+            border-bottom: 1px solid #f8f9fa;
+            transition: background-color 0.2s;
+        }
+        .menu a:hover {
+            background: #f8f9fa;
+        }
+        .menu li:last-child a {
+            border-bottom: none;
+        }
+        .menu .has-submenu > a::after {
+            content: '▶';
+            float: right;
+            font-size: 10px;
+        }
+        .submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+        }
+        .menu li:hover .submenu {
+            display: block;
+        }
+        .submenu a {
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+        
+        /* Select Menu Styles */
+        .select-container {
+            margin: 20px 0;
+        }
+        .select-menu {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+        }
+        .select-button {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .select-button::after {
+            content: '▼';
+            font-size: 12px;
+        }
+        .select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .select-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        .select-option:hover {
+            background: #f8f9fa;
+        }
+        .select-option.selected {
+            background: #007bff;
+            color: white;
+        }
+        .select-option:last-child {
+            border-bottom: none;
+        }
+        
+        /* Multi-select specific */
+        .multi-select .select-option {
+            position: relative;
+            padding-left: 35px;
+        }
+        .multi-select .select-option::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 1px solid #dee2e6;
+            border-radius: 2px;
+            background: white;
+        }
+        .multi-select .select-option.selected::before {
+            background: #007bff;
+            border-color: #007bff;
+        }
+        .multi-select .select-option.selected::after {
+            content: '✓';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <div class="container">
+            <h1>Widgets</h1>
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a> / Widgets
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem;">
+            <!-- Sidebar Navigation -->
+            <div class="nav-sidebar">
+                <ul>
+                    <li><a href="#accordian" class="nav-link active" data-target="accordian">Accordian</a></li>
+                    <li><a href="#auto-complete" class="nav-link" data-target="auto-complete">Auto Complete</a></li>
+                    <li><a href="#date-picker" class="nav-link" data-target="date-picker">Date Picker</a></li>
+                    <li><a href="#slider" class="nav-link" data-target="slider">Slider</a></li>
+                    <li><a href="#progress-bar" class="nav-link" data-target="progress-bar">Progress Bar</a></li>
+                    <li><a href="#tabs" class="nav-link" data-target="tabs">Tabs</a></li>
+                    <li><a href="#tool-tips" class="nav-link" data-target="tool-tips">Tool Tips</a></li>
+                    <li><a href="#menu" class="nav-link" data-target="menu">Menu</a></li>
+                    <li><a href="#select-menu" class="nav-link" data-target="select-menu">Select Menu</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div>
+                <!-- Accordion Section -->
+                <div id="accordian" class="content-area section-content active">
+                    <h2>Accordian</h2>
+                    
+                    <div class="accordion">
+                        <div class="accordion-header" data-target="accordion1">
+                            What is Lorem Ipsum?
+                        </div>
+                        <div id="accordion1" class="accordion-content">
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion">
+                        <div class="accordion-header" data-target="accordion2">
+                            Where does it come from?
+                        </div>
+                        <div id="accordion2" class="accordion-content">
+                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion">
+                        <div class="accordion-header" data-target="accordion3">
+                            Why do we use it?
+                        </div>
+                        <div id="accordion3" class="accordion-content">
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auto Complete Section -->
+                <div id="auto-complete" class="content-area section-content">
+                    <h2>Auto Complete</h2>
+                    
+                    <div class="mb-4">
+                        <h4>Type multiple color names</h4>
+                        <div class="autocomplete-container">
+                            <input type="text" id="autocomplete-multiple" class="autocomplete-input" placeholder="Type color names...">
+                            <div id="autocomplete-list-multiple" class="autocomplete-list"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4>Type single color name</h4>
+                        <div class="autocomplete-container">
+                            <input type="text" id="autocomplete-single" class="autocomplete-input" placeholder="Type a color name...">
+                            <div id="autocomplete-list-single" class="autocomplete-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Date Picker Section -->
+                <div id="date-picker" class="content-area section-content">
+                    <h2>Date Picker</h2>
+                    
+                    <div class="date-picker-container">
+                        <h4>Select Date</h4>
+                        <input type="date" id="datepicker" class="date-input">
+                    </div>
+                    
+                    <div class="date-picker-container">
+                        <h4>Select Date And Time</h4>
+                        <input type="date" id="date-time-picker-date" class="date-input">
+                        <input type="time" id="date-time-picker-time" class="time-input">
+                    </div>
+                </div>
+
+                <!-- Slider Section -->
+                <div id="slider" class="content-area section-content">
+                    <h2>Slider</h2>
+                    
+                    <div class="slider-container">
+                        <div class="slider">
+                            <input type="range" id="slider-range" min="0" max="100" value="25">
+                            <div class="slider-value">Value: <span id="sliderValue">25</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar Section -->
+                <div id="progress-bar" class="content-area section-content">
+                    <h2>Progress Bar</h2>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                        <div class="progress-controls">
+                            <button id="start-progress">Start</button>
+                            <button id="stop-progress">Stop Progress</button>
+                            <button id="reset-progress">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs Section -->
+                <div id="tabs" class="content-area section-content">
+                    <h2>Tabs</h2>
+                    
+                    <div class="tabs">
+                        <ul class="tab-list">
+                            <li><a href="#" class="tab-button active" data-target="tab-what">What</a></li>
+                            <li><a href="#" class="tab-button" data-target="tab-origin">Origin</a></li>
+                            <li><a href="#" class="tab-button" data-target="tab-use">Use</a></li>
+                            <li><a href="#" class="tab-button" data-target="tab-more">More</a></li>
+                        </ul>
+                        <div id="tab-what" class="tab-content active">
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        </div>
+                        <div id="tab-origin" class="tab-content">
+                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+                        </div>
+                        <div id="tab-use" class="tab-content">
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                        </div>
+                        <div id="tab-more" class="tab-content">
+                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool Tips Section -->
+                <div id="tool-tips" class="content-area section-content">
+                    <h2>Tool Tips</h2>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+                        <div class="tooltip tooltip-top">
+                    <button id="tooltip-button" class="tooltip-button">Hover me to see</button>
+                    <span class="tooltiptext">You hovered over the button</span>
+                </div>
+                        
+                        <div class="tooltip tooltip-right">
+                            <button class="tooltip-button">Hover me to see</button>
+                            <span class="tooltiptext">You hovered over the Button</span>
+                        </div>
+                        
+                        <div class="tooltip tooltip-bottom">
+                            <button class="tooltip-button">Hover me to see</button>
+                            <span class="tooltiptext">You hovered over the button</span>
+                        </div>
+                        
+                        <div class="tooltip tooltip-left">
+                            <button class="tooltip-button">Hover me to see</button>
+                            <span class="tooltiptext">You hovered over the button</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Section -->
+                <div id="menu" class="content-area section-content">
+                    <h2>Menu</h2>
+                    
+                    <ul class="menu">
+                        <li class="has-submenu">
+                            <a href="#">Main Item 1</a>
+                            <ul class="submenu">
+                                <li><a href="#">Sub Item 1</a></li>
+                                <li><a href="#">Sub Item 2</a></li>
+                                <li><a href="#">Sub Item 3</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-submenu">
+                            <a href="#">Main Item 2</a>
+                            <ul class="submenu">
+                                <li class="has-submenu">
+                                    <a href="#">SUB SUB LIST »</a>
+                                    <ul class="submenu">
+                                        <li><a href="#">Sub Sub Item 1</a></li>
+                                        <li><a href="#">Sub Sub Item 2</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Sub Item 2</a></li>
+                                <li><a href="#">Sub Item 3</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Main Item 3</a></li>
+                    </ul>
+                </div>
+
+                <!-- Select Menu Section -->
+                <div id="select-menu" class="content-area section-content">
+                    <h2>Select Menu</h2>
+                    
+                    <div class="select-container">
+                        <h4>Select Value</h4>
+                        <div class="select-menu" id="single-select">
+                            <div class="select-button">
+                                <span class="select-text">Select...</span>
+                            </div>
+                            <div class="select-dropdown">
+                                <div class="select-option" data-value="group1">Group 1, option 1</div>
+                                <div class="select-option" data-value="group2">Group 1, option 2</div>
+                                <div class="select-option" data-value="group3">Group 2, option 1</div>
+                                <div class="select-option" data-value="group4">Group 2, option 2</div>
+                                <div class="select-option" data-value="another">A root option</div>
+                                <div class="select-option" data-value="another2">Another root option</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="select-container">
+                        <h4>Multiselect</h4>
+                        <div class="select-menu multi-select" id="multi-select">
+                            <div class="select-button">
+                                <span class="select-text">Select...</span>
+                            </div>
+                            <div class="select-dropdown">
+                                <div class="select-option" data-value="green">Green</div>
+                                <div class="select-option" data-value="orange">Orange</div>
+                                <div class="select-option" data-value="purple">Purple</div>
+                                <div class="select-option" data-value="red">Red</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="select-container">
+                        <h4>Select with Option Groups</h4>
+                        <select id="withOptGroup" class="form-control">
+                            <optgroup label="Group 1">
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                            </optgroup>
+                            <optgroup label="Group 2">
+                                <option value="option3">Option 3</option>
+                                <option value="option4">Option 4</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div class="select-container">
+                        <h4>Standard multi select</h4>
+                        <select id="cars" class="form-control" multiple>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentAreas = document.querySelectorAll('.content-area');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav links
+                    navLinks.forEach(nl => nl.classList.remove('active'));
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Hide all content areas
+                    contentAreas.forEach(area => area.classList.remove('active'));
+                    // Show target content area
+                    const target = this.getAttribute('data-target');
+                    document.getElementById(target).classList.add('active');
+                });
+            });
+
+            // Accordion functionality
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    const content = document.getElementById(target);
+                    
+                    // Close all other accordions
+                    accordionHeaders.forEach(h => {
+                        if (h !== this) {
+                            h.classList.remove('active');
+                            const otherContent = document.getElementById(h.getAttribute('data-target'));
+                            otherContent.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current accordion
+                    this.classList.toggle('active');
+                    content.classList.toggle('active');
+                });
+            });
+
+            // Auto Complete functionality
+            const colors = [
+                'Red', 'Green', 'Blue', 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown', 'Black', 'White',
+                'Gray', 'Cyan', 'Magenta', 'Lime', 'Indigo', 'Violet', 'Turquoise', 'Gold', 'Silver', 'Maroon'
+            ];
+
+            function setupAutoComplete(inputId, listId, allowMultiple = false) {
+                const input = document.getElementById(inputId);
+                const list = document.getElementById(listId);
+                let selectedValues = [];
+
+                input.addEventListener('input', function() {
+                    const value = this.value.toLowerCase();
+                    list.innerHTML = '';
+                    
+                    if (value) {
+                        const filtered = colors.filter(color => 
+                            color.toLowerCase().includes(value) && 
+                            (!allowMultiple || !selectedValues.includes(color))
+                        );
+                        
+                        if (filtered.length > 0) {
+                            list.style.display = 'block';
+                            filtered.forEach(color => {
+                                const item = document.createElement('div');
+                                item.className = 'autocomplete-item';
+                                item.textContent = color;
+                                item.addEventListener('click', function() {
+                                    if (allowMultiple) {
+                                        selectedValues.push(color);
+                                        input.value = selectedValues.join(', ');
+                                    } else {
+                                        input.value = color;
+                                    }
+                                    list.style.display = 'none';
+                                });
+                                list.appendChild(item);
+                            });
+                        } else {
+                            list.style.display = 'none';
+                        }
+                    } else {
+                        list.style.display = 'none';
+                    }
+                });
+
+                // Hide list when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!input.contains(e.target) && !list.contains(e.target)) {
+                        list.style.display = 'none';
+                    }
+                });
+            }
+
+            setupAutoComplete('autocomplete-multiple', 'autocomplete-list-multiple', true);
+            setupAutoComplete('autocomplete-single', 'autocomplete-list-single', false);
+
+            // Slider functionality
+            const slider = document.getElementById('slider-range');
+            const sliderValue = document.getElementById('sliderValue');
+            
+            slider.addEventListener('input', function() {
+                sliderValue.textContent = this.value;
+            });
+
+            // Progress Bar functionality
+            let progressInterval;
+            const progressFill = document.getElementById('progress-fill');
+            const progressBar = document.querySelector('.progress-bar[role="progressbar"]');
+            const startBtn = document.getElementById('start-progress');
+            const stopBtn = document.getElementById('stop-progress');
+            const resetBtn = document.getElementById('reset-progress');
+
+            startBtn.addEventListener('click', function() {
+                let width = parseInt(progressFill.style.width) || 0;
+                progressInterval = setInterval(function() {
+                    if (width >= 100) {
+                        clearInterval(progressInterval);
+                    } else {
+                        width += 1;
+                        progressFill.style.width = width + '%';
+                        progressBar.setAttribute('aria-valuenow', width);
+                    }
+                }, 50);
+            });
+
+            stopBtn.addEventListener('click', function() {
+                clearInterval(progressInterval);
+            });
+
+            resetBtn.addEventListener('click', function() {
+                clearInterval(progressInterval);
+                progressFill.style.width = '0%';
+                progressBar.setAttribute('aria-valuenow', '0');
+            });
+
+            // Tabs functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('data-target');
+                    
+                    // Remove active class from all tabs and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(target).classList.add('active');
+                });
+            });
+
+            // Select Menu functionality
+            function setupSelectMenu(selectId, isMultiple = false) {
+                const selectMenu = document.getElementById(selectId);
+                const selectButton = selectMenu.querySelector('.select-button');
+                const selectText = selectMenu.querySelector('.select-text');
+                const selectDropdown = selectMenu.querySelector('.select-dropdown');
+                const selectOptions = selectMenu.querySelectorAll('.select-option');
+                let selectedValues = [];
+
+                selectButton.addEventListener('click', function() {
+                    selectDropdown.style.display = selectDropdown.style.display === 'block' ? 'none' : 'block';
+                });
+
+                selectOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const value = this.getAttribute('data-value');
+                        const text = this.textContent;
+
+                        if (isMultiple) {
+                            if (this.classList.contains('selected')) {
+                                this.classList.remove('selected');
+                                selectedValues = selectedValues.filter(v => v !== text);
+                            } else {
+                                this.classList.add('selected');
+                                selectedValues.push(text);
+                            }
+                            selectText.textContent = selectedValues.length > 0 ? selectedValues.join(', ') : 'Select...';
+                        } else {
+                            selectOptions.forEach(opt => opt.classList.remove('selected'));
+                            this.classList.add('selected');
+                            selectText.textContent = text;
+                            selectDropdown.style.display = 'none';
+                        }
+                    });
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!selectMenu.contains(e.target)) {
+                        selectDropdown.style.display = 'none';
+                    }
+                });
+            }
+
+            setupSelectMenu('single-select', false);
+            setupSelectMenu('multi-select', true);
+        });
+    </script>
+</body>
+</html>

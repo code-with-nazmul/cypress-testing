@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frames - Test App</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Frames</h1>
+            <p>Test frame switching functionality</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h3>Sample Iframe</h3>
+                <iframe id="frame1" src="data:text/html,<html><body><h1 id='sampleHeading'>This is a sample page</h1></body></html>" width="500" height="350"></iframe>
+            </div>
+            
+            <div class="section">
+                <h3>Small Iframe</h3>
+                <iframe id="frame2" src="./frame2.html" width="100" height="100"></iframe>
+            </div>
+            
+            <div class="section">
+                <h3>Third Iframe</h3>
+                <iframe id="frame3" src="data:text/html,<html><body><h1 id='sampleHeading'>This is a sample page</h1></body></html>" width="300" height="200"></iframe>
+            </div>
+            
+            <div class="section">
+                <h3>Fourth Iframe</h3>
+                <iframe id="frame4" src="data:text/html,<html><body><h1 id='sampleHeading'>This is a sample page</h1></body></html>" width="200" height="150"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

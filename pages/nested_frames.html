@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Frames - Test App</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nested Frames</h1>
+            <p>Test nested frame switching functionality</p>
+        </div>
+        
+        <div class="content" id="parent-frame">
+            <p>Parent Frame Content</p>
+            <div class="section">
+                <iframe id="sample-frame-2" src="data:text/html,<html><body><p>Child Iframe Content</p></body></html>" width="300" height="100"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

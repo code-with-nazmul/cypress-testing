@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactions - Test Automation Practice</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .page-header {
+            background: #007bff;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .breadcrumb {
+            margin-top: 0.5rem;
+        }
+        .breadcrumb a {
+            color: #cce7ff;
+            text-decoration: none;
+        }
+        .nav-sidebar {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .nav-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-sidebar li {
+            margin-bottom: 0.5rem;
+        }
+        .nav-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .content-area {
+            display: none;
+            padding: 1rem;
+        }
+        .content-area.active {
+            display: block;
+        }
+        .section-content {
+            margin-bottom: 2rem;
+        }
+        
+        /* Sortable Styles */
+        .sortable {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 400px;
+        }
+        .sortable li {
+            margin: 0 0 5px 0;
+            padding: 10px;
+            font-size: 14px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            cursor: move;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .sortable li:hover {
+            background: #e9ecef;
+        }
+        .sortable li.dragging {
+            opacity: 0.5;
+        }
+        
+        /* Grid Sortable */
+        .sortable-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        .sortable-grid .grid-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            cursor: move;
+            border-radius: 4px;
+        }
+        
+        /* Selectable Styles */
+        .selectable {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 400px;
+        }
+        .selectable li {
+            margin: 0 0 5px 0;
+            padding: 10px;
+            font-size: 14px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .selectable li:hover {
+            background: #e9ecef;
+        }
+        .selectable li.ui-selected {
+            background: #007bff;
+            color: white;
+        }
+        
+        /* Selectable Grid */
+        .selectable-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .selectable-grid .grid-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .selectable-grid .grid-item.ui-selected {
+            background: #007bff;
+            color: white;
+        }
+        
+        /* Resizable Styles */
+        .resizable {
+            width: 200px;
+            height: 150px;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 2px solid #007bff;
+            position: relative;
+            resize: both;
+            overflow: auto;
+            border-radius: 4px;
+        }
+        
+        /* Droppable Styles */
+        .droppable-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .droppable {
+            width: 150px;
+            height: 150px;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .droppable.drag-over {
+            border-color: #007bff;
+            background: #e7f3ff;
+        }
+        .droppable.dropped {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .draggable {
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            cursor: move;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .draggable.dragging {
+            opacity: 0.5;
+        }
+        
+        /* Accept/Reject Droppable */
+        .accept-drop {
+            border-color: #28a745;
+        }
+        .reject-drop {
+            border-color: #dc3545;
+        }
+        
+        /* Revert Draggable */
+        .revert-draggable {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        /* Axis Constrained */
+        .axis-x {
+            background: #17a2b8;
+        }
+        .axis-y {
+            background: #6f42c1;
+        }
+        
+        /* Container Constrained */
+        .constrain-container {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #6c757d;
+            position: relative;
+            background: #f8f9fa;
+            margin: 10px 0;
+        }
+        .constrained-draggable {
+            width: 80px;
+            height: 80px;
+            background: #fd7e14;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        /* Cursor Style */
+        .cursor-move {
+            cursor: move;
+        }
+        .cursor-pointer {
+            cursor: pointer;
+        }
+        
+        /* Sub Navigation */
+        .sub-nav {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        .sub-nav .sub-nav-link {
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #6c757d;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .sub-nav .sub-nav-link:hover {
+            color: #007bff;
+        }
+        .sub-nav .sub-nav-link.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        
+        /* Sub Content */
+        .sub-content {
+            display: none;
+        }
+        .sub-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <div class="container">
+            <h1>Interactions</h1>
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a> / Interactions
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem;">
+            <!-- Sidebar Navigation -->
+            <div class="nav-sidebar">
+                <ul>
+                    <li><a href="#sortable" class="nav-link active" data-target="sortable">Sortable</a></li>
+                    <li><a href="#selectable" class="nav-link" data-target="selectable">Selectable</a></li>
+                    <li><a href="#resizable" class="nav-link" data-target="resizable">Resizable</a></li>
+                    <li><a href="#droppable" class="nav-link" data-target="droppable">Droppable</a></li>
+                    <li><a href="#draggable" class="nav-link" data-target="draggable">Draggable</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div>
+                <!-- Sortable Section -->
+                <div id="sortable" class="content-area section-content active">
+                    <h2>Sortable</h2>
+                    
+                    <!-- Sub Navigation -->
+                    <div class="sub-nav mb-3">
+                        <a href="#" class="sub-nav-link active" data-target="sortable-default">Default</a>
+                        <a href="#" class="sub-nav-link" data-target="sortable-grid">Grid</a>
+                    </div>
+                    
+                    <div id="sortable-default" class="sub-content active">
+                        <h4>Default functionality</h4>
+                        <ul id="sortable-list" class="sortable">
+                            <li>Item 1</li>
+                            <li>Item 2</li>
+                            <li>Item 3</li>
+                            <li>Item 4</li>
+                            <li>Item 5</li>
+                            <li>Item 6</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="sortable-grid" class="sub-content">
+                        <h4>Display as grid</h4>
+                        <div id="sortable-grid-layout" class="sortable-grid">
+                            <div class="grid-item" draggable="true">One</div>
+                            <div class="grid-item" draggable="true">Two</div>
+                            <div class="grid-item" draggable="true">Three</div>
+                            <div class="grid-item" draggable="true">Four</div>
+                            <div class="grid-item" draggable="true">Five</div>
+                            <div class="grid-item" draggable="true">Six</div>
+                            <div class="grid-item" draggable="true">Seven</div>
+                            <div class="grid-item" draggable="true">Eight</div>
+                            <div class="grid-item" draggable="true">Nine</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selectable Section -->
+                <div id="selectable" class="content-area section-content">
+                    <h2>Selectable</h2>
+                    
+                    <!-- Sub Navigation -->
+                    <div class="sub-nav mb-3">
+                        <a href="#" class="sub-nav-link active" data-target="selectable-default">Default</a>
+                        <a href="#" class="sub-nav-link" data-target="selectable-grid">Grid</a>
+                    </div>
+                    
+                    <div id="selectable-default" class="sub-content active">
+                        <h4>Default functionality</h4>
+                        <ol id="selectable-list" class="selectable">
+                            <li>Cras justo odio</li>
+                            <li>Dapibus ac facilisis in</li>
+                            <li>Morbi leo risus</li>
+                            <li>Porta ac consectetur ac</li>
+                            <li>Vestibulum at eros</li>
+                        </ol>
+                    </div>
+                    
+                    <div id="selectable-grid" class="sub-content">
+                        <h4>Display as grid</h4>
+                        <div id="selectable-grid-layout" class="selectable-grid">
+                            <div class="grid-item">One</div>
+                            <div class="grid-item">Two</div>
+                            <div class="grid-item">Three</div>
+                            <div class="grid-item">Four</div>
+                            <div class="grid-item">Five</div>
+                            <div class="grid-item">Six</div>
+                            <div class="grid-item">Seven</div>
+                            <div class="grid-item">Eight</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resizable Section -->
+                <div id="resizable" class="content-area section-content">
+                    <h2>Resizable</h2>
+                    
+                    <div class="mb-4">
+                        <h4>Default functionality</h4>
+                        <div id="resizable-box" class="resizable">
+                            <h3>Resizable</h3>
+                            <p>Resize me by dragging from the bottom-right corner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Droppable Section -->
+                <div id="droppable" class="content-area section-content">
+                    <h2>Droppable</h2>
+                    
+                    <!-- Sub Navigation -->
+                    <div class="sub-nav mb-3">
+                        <a href="#" class="sub-nav-link active" data-target="droppable-simple">Simple</a>
+                        <a href="#" class="sub-nav-link" data-target="droppable-accept">Accept</a>
+                        <a href="#" class="sub-nav-link" data-target="droppable-prevent">Prevent Propagation</a>
+                        <a href="#" class="sub-nav-link" data-target="droppable-revert">Revert Draggable</a>
+                    </div>
+                    
+                    <div id="droppable-simple" class="sub-content active">
+                        <h4>Simple</h4>
+                        <div class="droppable-container">
+                            <div id="simple-draggable" class="draggable" draggable="true">Drag me</div>
+                            <div id="simple-droppable" class="droppable">Drop here</div>
+                        </div>
+                    </div>
+                    
+                    <div id="droppable-accept" class="sub-content">
+                        <h4>Accept</h4>
+                        <div class="droppable-container">
+                            <div id="accept-draggable" class="draggable" draggable="true" data-accept="true">Acceptable</div>
+                            <div id="reject-draggable" class="draggable" draggable="true" data-accept="false">Not acceptable</div>
+                            <div id="accept-droppable" class="droppable accept-drop">Accept only 'Acceptable'</div>
+                        </div>
+                    </div>
+                    
+                    <div id="droppable-prevent" class="sub-content">
+                        <h4>Prevent Propagation</h4>
+                        <div class="droppable-container">
+                            <div id="propagation-draggable" class="draggable" draggable="true">Drag me</div>
+                            <div id="outer-droppable" class="droppable" style="width: 200px; height: 200px;">
+                                Outer droppable
+                                <div id="inner-droppable" class="droppable" style="width: 100px; height: 100px; margin: 20px;">Inner droppable</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="droppable-revert" class="sub-content">
+                        <h4>Revert draggable position</h4>
+                        <div class="droppable-container">
+                            <div id="revert-draggable" class="draggable revert-draggable" draggable="true">Will Revert</div>
+                            <div id="not-revert-draggable" class="draggable" draggable="true">Not Revert</div>
+                            <div id="revert-droppable" class="droppable">Drop here (will revert)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Draggable Section -->
+                <div id="draggable" class="content-area section-content">
+                    <h2>Draggable</h2>
+                    
+                    <!-- Sub Navigation -->
+                    <div class="sub-nav mb-3">
+                        <a href="#" class="sub-nav-link active" data-target="draggable-default">Default</a>
+                        <a href="#" class="sub-nav-link" data-target="draggable-axis">Axis Restricted</a>
+                        <a href="#" class="sub-nav-link" data-target="draggable-container">Container Restricted</a>
+                        <a href="#" class="sub-nav-link" data-target="draggable-cursor">Cursor Style</a>
+                    </div>
+                    
+                    <div id="draggable-default" class="sub-content active">
+                        <h4>Default functionality</h4>
+                        <div class="draggable-container">
+                            <div id="simple-drag" class="draggable" draggable="true">Drag me around</div>
+                        </div>
+                    </div>
+                    
+                    <div id="draggable-axis" class="sub-content">
+                        <h4>Constrain movement along an axis</h4>
+                        <div class="draggable-container">
+                            <div id="axis-x-drag" class="draggable axis-x" draggable="true">I can only move horizontally</div>
+                            <div id="axis-y-drag" class="draggable axis-y" draggable="true">I can only move vertically</div>
+                        </div>
+                    </div>
+                    
+                    <div id="draggable-container" class="sub-content">
+                        <h4>Constrain movement within a container</h4>
+                        <div class="draggable-container">
+                            <div class="constrain-container">
+                                <div id="constrained-drag" class="draggable constrained-draggable" draggable="true">I'm contained</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="draggable-cursor" class="sub-content">
+                        <h4>Cursor style</h4>
+                        <div class="draggable-container">
+                            <div id="cursor-move-drag" class="draggable cursor-move" draggable="true">Move cursor</div>
+                            <div id="cursor-pointer-drag" class="draggable cursor-pointer" draggable="true">Pointer cursor</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links and content areas
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.content-area').forEach(area => area.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Show corresponding content area
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        // Sortable functionality
+        function initSortable() {
+            let draggedElement = null;
+            
+            // List sortable
+            document.querySelectorAll('#sortable-list li').forEach(item => {
+                item.draggable = true;
+                
+                item.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/html', this.outerHTML);
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+                
+                item.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                });
+                
+                item.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    if (draggedElement !== this) {
+                        const parent = this.parentNode;
+                        const draggedIndex = Array.from(parent.children).indexOf(draggedElement);
+                        const targetIndex = Array.from(parent.children).indexOf(this);
+                        
+                        // Always insert after the target element for "below" behavior
+                        parent.insertBefore(draggedElement, this.nextSibling);
+                    }
+                });
+            });
+            
+            // Add drop event listener to the list container for "drag to top" functionality
+            const sortableList = document.getElementById('sortable-list');
+            sortableList.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            });
+            
+            sortableList.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (draggedElement && e.target === this) {
+                    // Insert at the beginning of the list
+                    this.insertBefore(draggedElement, this.firstChild);
+                }
+            });
+            
+            // Grid sortable
+            document.querySelectorAll('#sortable-grid .grid-item').forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                
+                item.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+                
+                item.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    if (draggedElement !== this) {
+                        const temp = this.textContent;
+                        this.textContent = draggedElement.textContent;
+                        draggedElement.textContent = temp;
+                    }
+                });
+            });
+        }
+
+        // Selectable functionality
+        function initSelectable() {
+            // List selectable
+            document.querySelectorAll('#selectable-list li').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (e.ctrlKey || e.metaKey) {
+                        this.classList.toggle('ui-selected');
+                    } else {
+                        document.querySelectorAll('#selectable-list li').forEach(li => li.classList.remove('ui-selected'));
+                        this.classList.add('ui-selected');
+                    }
+                });
+            });
+            
+            // Grid selectable
+            document.querySelectorAll('#selectable-grid .grid-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (e.ctrlKey || e.metaKey) {
+                        this.classList.toggle('ui-selected');
+                    } else {
+                        document.querySelectorAll('#selectable-grid .grid-item').forEach(li => li.classList.remove('ui-selected'));
+                        this.classList.add('ui-selected');
+                    }
+                });
+            });
+        }
+
+        // Droppable functionality
+        function initDroppable() {
+            // Simple droppable
+            const simpleDraggable = document.getElementById('simple-draggable');
+            const simpleDroppable = document.getElementById('simple-droppable');
+            
+            simpleDraggable.addEventListener('dragstart', function(e) {
+                this.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', this.id);
+            });
+            
+            simpleDraggable.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+            });
+            
+            simpleDroppable.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+            
+            simpleDroppable.addEventListener('dragleave', function() {
+                this.classList.remove('drag-over');
+            });
+            
+            simpleDroppable.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                this.classList.add('dropped');
+                this.textContent = 'Dropped!';
+            });
+            
+            // Accept droppable
+            const acceptDraggable = document.getElementById('accept-draggable');
+            const rejectDraggable = document.getElementById('reject-draggable');
+            const acceptDroppable = document.getElementById('accept-droppable');
+            
+            [acceptDraggable, rejectDraggable].forEach(draggable => {
+                draggable.addEventListener('dragstart', function(e) {
+                    this.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', this.getAttribute('data-accept'));
+                });
+                
+                draggable.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+            });
+            
+            acceptDroppable.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+            
+            acceptDroppable.addEventListener('dragleave', function() {
+                this.classList.remove('drag-over');
+            });
+            
+            acceptDroppable.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('drag-over');
+                // Ensure 'dropped' class is removed first
+                this.classList.remove('dropped');
+                const acceptValue = e.dataTransfer.getData('text/plain');
+                const isAcceptable = acceptValue === 'true';
+                if (isAcceptable) {
+                    this.classList.add('dropped');
+                    this.textContent = 'Accepted!';
+                } else {
+                    // Explicitly ensure 'dropped' class is not present for rejected elements
+                    this.classList.remove('dropped');
+                    this.style.background = '#f8d7da';
+                    this.textContent = 'Rejected!';
+                    setTimeout(() => {
+                        this.style.background = '';
+                        this.textContent = "Accept only 'Acceptable'";
+                        // Ensure 'dropped' class is still not present after timeout
+                        this.classList.remove('dropped');
+                    }, 100);
+                }
+            });
+            
+            // Propagation droppable
+            const propagationDraggable = document.getElementById('propagation-draggable');
+            const outerDroppable = document.getElementById('outer-droppable');
+            const innerDroppable = document.getElementById('inner-droppable');
+            
+            propagationDraggable.addEventListener('dragstart', function(e) {
+                this.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', 'propagation');
+            });
+            
+            propagationDraggable.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+            });
+            
+            [outerDroppable, innerDroppable].forEach(droppable => {
+                droppable.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('drag-over');
+                });
+                
+                droppable.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+                
+                droppable.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('drag-over');
+                    this.classList.add('dropped');
+                    if (this.id === 'inner-droppable') {
+                        this.textContent = 'Inner dropped!';
+                    } else {
+                        this.innerHTML = 'Outer dropped!<div id="inner-droppable" class="droppable" style="width: 100px; height: 100px; margin: 20px;">Inner droppable</div>';
+                    }
+                });
+            });
+            
+            // Revert droppable
+            const revertDraggable = document.getElementById('revert-draggable');
+            const notRevertDraggable = document.getElementById('not-revert-draggable');
+            const revertDroppable = document.getElementById('revert-droppable');
+            let originalPosition = null;
+            let draggedElement = null;
+            
+            // Will Revert element
+            revertDraggable.addEventListener('dragstart', function(e) {
+                this.classList.add('dragging');
+                draggedElement = this;
+                originalPosition = {
+                    parent: this.parentNode,
+                    nextSibling: this.nextSibling
+                };
+                e.dataTransfer.setData('text/plain', 'revert');
+            });
+            
+            revertDraggable.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+            });
+            
+            // Not Revert element
+            notRevertDraggable.addEventListener('dragstart', function(e) {
+                this.classList.add('dragging');
+                draggedElement = this;
+                e.dataTransfer.setData('text/plain', 'not-revert');
+            });
+            
+            notRevertDraggable.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+            });
+            
+            revertDroppable.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+            
+            revertDroppable.addEventListener('dragleave', function() {
+                this.classList.remove('drag-over');
+            });
+            
+            revertDroppable.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                this.classList.add('dropped');
+                
+                const dragType = e.dataTransfer.getData('text/plain');
+                
+                if (dragType === 'revert') {
+                    this.textContent = 'Dropped! Reverting...';
+                    setTimeout(() => {
+                        if (originalPosition.nextSibling) {
+                            originalPosition.parent.insertBefore(revertDraggable, originalPosition.nextSibling);
+                        } else {
+                            originalPosition.parent.appendChild(revertDraggable);
+                        }
+                        this.classList.remove('dropped');
+                        this.textContent = 'Drop here (will revert)';
+                    }, 1000);
+                } else if (dragType === 'not-revert') {
+                    this.textContent = 'Element stayed!';
+                    // Element stays in the drop area
+                }
+            });
+        }
+
+        // Draggable functionality
+        function initDraggable() {
+            let isDragging = false;
+            let currentElement = null;
+            let startX, startY, initialX, initialY;
+            
+            function makeDraggable(element, options = {}) {
+                element.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    currentElement = this;
+                    
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    
+                    const rect = this.getBoundingClientRect();
+                    initialX = rect.left;
+                    initialY = rect.top;
+                    
+                    this.style.position = 'absolute';
+                    this.style.left = initialX + 'px';
+                    this.style.top = initialY + 'px';
+                    this.style.zIndex = '1000';
+                    
+                    e.preventDefault();
+                });
+            }
+            
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging || !currentElement) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                let newX = initialX + deltaX;
+                let newY = initialY + deltaY;
+                
+                // Apply constraints based on element type
+                if (currentElement.id === 'axis-x-drag') {
+                    newY = initialY; // Only horizontal movement
+                } else if (currentElement.id === 'axis-y-drag') {
+                    newX = initialX; // Only vertical movement
+                } else if (currentElement.id === 'constrained-drag') {
+                    const container = currentElement.parentNode;
+                    const containerRect = container.getBoundingClientRect();
+                    const elementRect = currentElement.getBoundingClientRect();
+                    
+                    newX = Math.max(containerRect.left, Math.min(newX, containerRect.right - elementRect.width));
+                    newY = Math.max(containerRect.top, Math.min(newY, containerRect.bottom - elementRect.height));
+                }
+                
+                currentElement.style.left = newX + 'px';
+                currentElement.style.top = newY + 'px';
+            });
+            
+            document.addEventListener('mouseup', function() {
+                if (isDragging && currentElement) {
+                    isDragging = false;
+                    currentElement = null;
+                }
+            });
+            
+            // Initialize all draggable elements
+            document.querySelectorAll('#simple-drag, #axis-x-drag, #axis-y-drag, #constrained-drag, #cursor-move-drag, #cursor-pointer-drag').forEach(element => {
+                makeDraggable(element);
+            });
+        }
+
+        // Sub Navigation functionality
+        function initSubNavigation() {
+            document.querySelectorAll('.sub-nav .sub-nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('data-target');
+                    const parentSection = this.closest('.content-area');
+                    
+                    // Remove active class from all sub-nav links in this section
+                    parentSection.querySelectorAll('.sub-nav .sub-nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Hide all sub-content in this section
+                    parentSection.querySelectorAll('.sub-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show target content
+                    const targetContent = parentSection.querySelector('#' + targetId);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+            
+            // Initialize first tab as active for each section
+            document.querySelectorAll('.content-area').forEach(section => {
+                const firstLink = section.querySelector('.sub-nav .sub-nav-link');
+                const firstContent = section.querySelector('.sub-content');
+                
+                if (firstLink && firstContent) {
+                    firstLink.classList.add('active');
+                    firstContent.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize all functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initSortable();
+            initSelectable();
+            initDroppable();
+            initDraggable();
+            initSubNavigation();
+        });
+    </script>
+</body>
+</html>

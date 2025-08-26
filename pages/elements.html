@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elements - Test Automation Practice</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="page-header">
+        <div class="container">
+            <h1>Elements</h1>
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a> / Elements
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem;">
+            <!-- Sidebar Navigation -->
+            <div class="nav-sidebar">
+                <ul>
+                    <li><a href="#text-box" class="nav-link active" data-target="text-box">Text Box</a></li>
+                    <li><a href="#check-box" class="nav-link" data-target="check-box">Check Box</a></li>
+                    <li><a href="#radio-button" class="nav-link" data-target="radio-button">Radio Button</a></li>
+                    <li><a href="#web-tables" class="nav-link" data-target="web-tables">Web Tables</a></li>
+                    <li><a href="#buttons" class="nav-link" data-target="buttons">Buttons</a></li>
+                    <li><a href="#links" class="nav-link" data-target="links">Links</a></li>
+                    <li><a href="#broken-links" class="nav-link" data-target="broken-links">Broken Links - Images</a></li>
+                    <li><a href="#upload-download" class="nav-link" data-target="upload-download">Upload and Download</a></li>
+                    <li><a href="#dynamic-properties" class="nav-link" data-target="dynamic-properties">Dynamic Properties</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div>
+                <!-- Text Box Section -->
+                <div id="text-box" class="content-area section-content active">
+                    <h2>Text Box</h2>
+                    <form id="textBoxForm">
+                        <div class="form-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" class="form-control" placeholder="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="current-address">Current Address</label>
+                            <textarea id="current-address" class="form-control" rows="3" placeholder="Current Address"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="permanent-address">Permanent Address</label>
+                            <textarea id="permanent-address" class="form-control" rows="3" placeholder="Permanent Address"></textarea>
+                        </div>
+                        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    <div id="output" class="mt-3" style="display: none;"></div>
+                </div>
+
+                <!-- Check Box Section -->
+                <div id="check-box" class="content-area section-content">
+                    <h2>Check Box</h2>
+                    <div id="tree" class="tree-container">
+                        <div class="tree-node">
+                            <input type="checkbox" id="home" class="tree-checkbox">
+                            <label for="home" class="tree-label">Home</label>
+                            <div class="tree-children">
+                                <div class="tree-node">
+                                    <input type="checkbox" id="desktop" class="tree-checkbox">
+                                    <label for="desktop" class="tree-label">Desktop</label>
+                                    <div class="tree-children">
+                                        <div class="tree-node">
+                                            <input type="checkbox" id="notes" class="tree-checkbox">
+                                            <label for="notes" class="tree-label">Notes</label>
+                                        </div>
+                                        <div class="tree-node">
+                                            <input type="checkbox" id="commands" class="tree-checkbox">
+                                            <label for="commands" class="tree-label">Commands</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tree-node">
+                                    <input type="checkbox" id="documents" class="tree-checkbox">
+                                    <label for="documents" class="tree-label">Documents</label>
+                                    <div class="tree-children">
+                                        <div class="tree-node">
+                                            <input type="checkbox" id="workspace" class="tree-checkbox">
+                                            <label for="workspace" class="tree-label">WorkSpace</label>
+                                            <div class="tree-children">
+                                                <div class="tree-node">
+                                                    <input type="checkbox" id="react" class="tree-checkbox">
+                                                    <label for="react" class="tree-label">React</label>
+                                                </div>
+                                                <div class="tree-node">
+                                                    <input type="checkbox" id="angular" class="tree-checkbox">
+                                                    <label for="angular" class="tree-label">Angular</label>
+                                                </div>
+                                                <div class="tree-node">
+                                                    <input type="checkbox" id="veu" class="tree-checkbox">
+                                                    <label for="veu" class="tree-label">Veu</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tree-node">
+                                            <input type="checkbox" id="office" class="tree-checkbox">
+                                            <label for="office" class="tree-label">Office</label>
+                                            <div class="tree-children">
+                                                <div class="tree-node">
+                                                    <input type="checkbox" id="public" class="tree-checkbox">
+                                                    <label for="public" class="tree-label">Public</label>
+                                                </div>
+                                                <div class="tree-node">
+                                                    <input type="checkbox" id="private" class="tree-checkbox">
+                                                    <label for="private" class="tree-label">Private</label>
+                                                </div>
+                                                <div class="tree-node">
+                                                    <input type="checkbox" id="classified" class="tree-checkbox">
+                                                    <label for="classified" class="tree-label">Classified</label>
+                                                </div>
+                                                <div class="tree-node">
+                                                    <input type="checkbox" id="general" class="tree-checkbox">
+                                                    <label for="general" class="tree-label">General</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tree-node">
+                                    <input type="checkbox" id="downloads" class="tree-checkbox">
+                                    <label for="downloads" class="tree-label">Downloads</label>
+                                    <div class="tree-children">
+                                        <div class="tree-node">
+                                            <input type="checkbox" id="wordFile" class="tree-checkbox">
+                                            <label for="wordFile" class="tree-label">Word File.doc</label>
+                                        </div>
+                                        <div class="tree-node">
+                                            <input type="checkbox" id="excelFile" class="tree-checkbox">
+                                            <label for="excelFile" class="tree-label">Excel File.doc</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="result" class="mt-3"></div>
+                </div>
+
+                <!-- Radio Button Section -->
+                <div id="radio-button" class="content-area section-content">
+                    <h2>Radio Button</h2>
+                    <p>Do you like the site?</p>
+                    <div class="form-group">
+                        <div class="mb-2">
+                            <input type="radio" id="yesRadio" name="like" value="Yes" class="radio-input">
+                            <label for="yesRadio" class="radio-label">Yes</label>
+                        </div>
+                        <div class="mb-2">
+                            <input type="radio" id="impressiveRadio" name="like" value="Impressive" class="radio-input">
+                            <label for="impressiveRadio" class="radio-label">Impressive</label>
+                        </div>
+                        <div class="mb-2">
+                            <input type="radio" id="noRadio" name="like" value="No" class="radio-input" disabled>
+                            <label for="noRadio" class="radio-label disabled">No</label>
+                        </div>
+                    </div>
+                    <div id="radioResult" class="mt-3"></div>
+                </div>
+
+                <!-- Web Tables Section -->
+                <div id="web-tables" class="content-area section-content">
+                    <h2>Web Tables</h2>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <input type="text" id="searchBox" class="form-control" placeholder="Type to search" style="max-width: 300px;">
+                        <button id="add" class="btn btn-primary">Add</button>
+                    </div>
+                    
+                    <!-- Add Record Form -->
+                    <div id="addRecordForm" class="mb-3" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <input type="text" id="webtable-first-name" class="form-control" placeholder="First Name">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" id="webtable-last-name" class="form-control" placeholder="Last Name">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="email" id="webtable-email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="col-md-1">
+                                <input type="number" id="webtable-age" class="form-control" placeholder="Age">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" id="webtable-salary" class="form-control" placeholder="Salary">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" id="webtable-department" class="form-control" placeholder="Department">
+                            </div>
+                            <div class="col-md-1">
+                                <button id="webtable-submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tableContainer"></div>
+                </div>
+
+                <!-- Buttons Section -->
+                <div id="buttons" class="content-area section-content">
+                    <h2>Buttons</h2>
+                    <div class="mb-3">
+                        <button id="doubleClickBtn" class="btn btn-primary">Double Click Me</button>
+                        <div id="doubleClickMessage" class="mt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <button id="rightClickBtn" class="btn btn-secondary">Right Click Me</button>
+                        <div id="rightClickMessage" class="mt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <button id="clickMeBtn" class="btn btn-success">Click Me</button>
+                        <div id="dynamicClickMessage" class="mt-2"></div>
+                    </div>
+                </div>
+
+                <!-- Links Section -->
+                <div id="links" class="content-area section-content">
+                    <h2>Links</h2>
+                    <div class="mb-3">
+                        <h4>Following links will open new tab</h4>
+                        <p><a id="simpleLink" href="javascript:void(0)" onclick="window.open('http://localhost:8081/index.html', '_blank')">Home</a></p>
+                        <p><a id="dynamicLink" href="javascript:void(0)" onclick="window.open('http://localhost:8081/index.html', '_blank')">Home Dynamic Link</a></p>
+                    </div>
+                    <div class="mb-3">
+                        <h4>Following links will send an api call</h4>
+                        <p><a id="created" href="#" class="api-link" data-status="201">Created</a></p>
+                        <p><a id="no-content" href="#" class="api-link" data-status="204">No Content</a></p>
+                        <p><a id="moved" href="#" class="api-link" data-status="301">Moved</a></p>
+                        <p><a id="bad-request" href="#" class="api-link" data-status="400">Bad Request</a></p>
+                        <p><a id="unauthorized" href="#" class="api-link" data-status="401">Unauthorized</a></p>
+                        <p><a id="forbidden" href="#" class="api-link" data-status="403">Forbidden</a></p>
+                        <p><a id="not-found" href="#" class="api-link" data-status="404">Not Found</a></p>
+                    </div>
+                    <div id="linkResponse" class="mt-3"></div>
+                </div>
+
+                <!-- Broken Links Section -->
+                <div id="broken-links" class="content-area section-content">
+                    <h2>Broken Links - Images</h2>
+                    <div class="mb-3">
+                        <p>Valid image</p>
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzY2N2VlYSIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlZhbGlkIEltYWdlPC90ZXh0Pgo8L3N2Zz4=" alt="Valid Image" style="border: 1px solid #ddd;">
+                    </div>
+                    <div class="mb-3">
+                        <p>Broken image</p>
+                        <img src="broken-image.jpg" alt="Broken Image" style="border: 1px solid #ddd;">
+                    </div>
+                    <div class="mb-3">
+                        <p><a href="../index.html" id="validLink">Valid Link</a></p>
+                        <p><a href="broken-link.html" id="brokenLink">Broken Link</a></p>
+                    </div>
+                </div>
+
+                <!-- Upload and Download Section -->
+                <div id="upload-download" class="content-area section-content">
+                    <h2>Upload and Download</h2>
+                    <div class="mb-3">
+                        <button id="downloadButton" class="btn btn-primary">Download</button>
+                    </div>
+                    <div class="mb-3">
+                        <label for="upload-file" class="form-label">Select a file</label>
+                        <input type="file" id="upload-file" class="form-control" accept=".txt,.pdf,.doc,.docx,.jpg,.png">
+                        <div id="uploaded-file-path" class="mt-2"></div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Properties Section -->
+                <div id="dynamic-properties" class="content-area section-content">
+                    <h2>Dynamic Properties</h2>
+                    <div class="mb-3">
+                        <p>This text has random Id</p>
+                        <p id="randomId">Random ID: <span id="randomIdValue"></span></p>
+                        <button id="random-button" class="btn btn-info">Random Button</button>
+                    </div>
+                    <div class="mb-3">
+                        <button id="enableAfter" class="btn btn-secondary" disabled>Will enable 5 seconds</button>
+                    </div>
+                    <div class="mb-3">
+                        <button id="colorChange" class="btn btn-primary">Color Change</button>
+                    </div>
+                    <div class="mb-3">
+                        <button id="visibleAfter" class="btn btn-success" style="display: none;">Visible After 5 Seconds</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/elements.js"></script>
+</body>
+</html>
