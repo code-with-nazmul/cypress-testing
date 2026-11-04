@@ -1,218 +1,102 @@
-# 🚀 Free Test Automation Practice Site
+# Cypress Automation Testing
 
-A comprehensive **free test automation practice platform** designed for QA engineers, automation testers, and anyone learning web testing with Selenium, Cypress, Playwright, and other automation tools.
+This repository contains automated end-to-end (E2E) tests written using **Cypress** and JavaScript.
 
-## 🌟 Features
+The project is based on [Automation Testing Playground](https://github.com/rahulkar/automation-testing-playground), an existing web application designed for practicing web automation testing.
 
-### 📝 Elements Practice
-- Text boxes and input fields
-- Checkboxes and radio buttons
-- Web tables with sorting and pagination
-- Buttons and links
-- Broken links detection
-- File upload and download functionality
+I forked the original repository and extended it with Cypress test scripts to practice and demonstrate UI automation testing.
 
-### 📋 Forms Testing
-- Practice forms with various input types
-- Form validation scenarios
-- Multi-step form workflows
+## Tech Stack
 
-### 🪟 Alerts, Frames & Windows
-- Browser window handling
-- JavaScript alerts (simple, confirm, prompt)
-- iFrames and nested frames
-- Modal dialogs
-- Window switching scenarios
+- **Automation Framework:** Cypress
+- **Programming Language:** JavaScript
+- **Testing Type:** End-to-End (E2E) Testing
+- **Browser:** Chrome / Electron (through Cypress)
 
-### 🎛️ Widgets
-- Accordions and collapsible content
-- Auto-complete functionality
-- Date pickers and calendars
-- Sliders and progress bars
-- Tabs and navigation
-- Tooltips and menus
+## Project Structure
 
-### 🤝 Interactions
-- Drag and drop operations
-- Sortable lists
-- Selectable elements
-- Resizable components
-- Interactive UI elements
+```text
+.
+├── css/
+├── cypress/
+│   ├── downloads/
+│   ├── e2e/
+│   │   └── elements.cy.js
+│   ├── fixtures/
+│   └── support/
+├── js/
+├── pages/
+├── cypress.config.js
+├── index.html
+├── LICENSE
+└── README.md
+```
 
-### 📚 Book Store Application
-- User authentication system
-- Book catalog with search and filtering
-- User profile management
-- API testing endpoints
-- **Test Credentials:**
-  - Username: `testuser` | Password: `password123`
-  - Username: `admin` | Password: `admin123`
+## Test Scenarios
 
-## 🚀 Quick Start
+The project includes Cypress test scripts for practicing web UI automation.
+
+Current test coverage includes:
+
+- **Web Elements:** Interacting with and validating web elements.
+
+Additional test scenarios will be added as the project evolves.
+
+## Getting Started
 
 ### Prerequisites
-- Python 3.x (for local server)
-- Web browser
-- Your favorite automation testing tool (Selenium, Cypress, Playwright, etc.)
 
-### Running Locally
+- Node.js
+- npm
 
-1. **Clone or download** this repository
-2. **Navigate** to the project directory
-3. **Start a local server:**
-   ```bash
-   # Using Python
-   python -m http.server 8000
-   
-   # Using Node.js (if you have it installed)
-   npx serve .
-   
-   # Using PHP (if you have it installed)
-   php -S localhost:8000
-   ```
-4. **Open your browser** and go to `http://localhost:8000`
+### Installation
 
-## 📁 Project Structure
+Clone the repository:
 
-```
-qa-mockup/
-├── css/
-│   └── style.css          # Main stylesheet
-├── js/
-│   ├── main.js            # Main JavaScript functionality
-│   ├── alerts.js          # Alert handling scripts
-│   ├── elements.js        # Element interaction scripts
-│   └── forms.js           # Form handling scripts
-├── pages/
-│   ├── elements.html      # Elements practice page
-│   ├── forms.html         # Forms practice page
-│   ├── alerts.html        # Alerts and windows page
-│   ├── widgets.html       # Widgets practice page
-│   ├── interactions.html  # Interactions practice page
-│   ├── bookstore.html     # Book store application
-│   └── ...               # Additional practice pages
-├── images/                # Image assets
-├── index.html            # Main homepage
-├── sitemap.xml           # SEO sitemap
-├── robots.txt            # Search engine guidance
-└── README.md             # This file
+```bash
+git clone https://github.com/code-with-nazmul/cypress-testing.git
+cd cypress-testing
 ```
 
-## 🎯 Perfect for Testing
+Install Cypress (if it is not already installed):
 
-### Selenium WebDriver
-```python
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-
-driver = webdriver.Chrome()
-driver.get("http://localhost:8000")
-
-# Example: Click on Elements card
-elements_card = driver.find_element(By.ID, "elements")
-elements_card.click()
+```bash
+npm install --save-dev cypress
 ```
 
-### Cypress
-```javascript
-describe('QA Practice Site', () => {
-  it('should navigate to elements page', () => {
-    cy.visit('http://localhost:8000')
-    cy.get('#elements').click()
-    cy.url().should('include', '/elements.html')
-  })
-})
+### Running Tests
+
+Open the Cypress Test Runner:
+
+```bash
+npx cypress open
 ```
 
-### Playwright
-```javascript
-const { test, expect } = require('@playwright/test');
+Run tests in headless mode:
 
-test('navigate to forms page', async ({ page }) => {
-  await page.goto('http://localhost:8000');
-  await page.click('#forms');
-  await expect(page).toHaveURL(/.*forms.html/);
-});
+```bash
+npx cypress run
 ```
 
-## 🎨 Features & UI Elements
+Make sure the application is running at the `baseUrl` configured in `cypress.config.js` before executing the tests.
 
-### Interactive Components
-- **Responsive Grid Layout**: Cards automatically adjust to screen size
-- **Hover Effects**: Smooth animations and visual feedback
-- **Modern Design**: Clean, professional interface
-- **Accessibility**: Proper ARIA labels and semantic HTML
+## Learning Objectives
 
-### Testing Scenarios
-- **Form Validation**: Test various input validation scenarios
-- **Dynamic Content**: Practice with dynamically loaded elements
-- **Error Handling**: Test error states and edge cases
-- **User Workflows**: Complete user journey testing
+- Understanding Cypress and E2E testing.
+- Writing automated test cases using JavaScript.
+- Locating and interacting with web elements.
+- Validating expected application behavior.
+- Organizing and maintaining Cypress test scripts.
 
-## 🛠️ Customization
+## Acknowledgements
 
-### Adding New Test Pages
-1. Create a new HTML file in the `pages/` directory
-2. Follow the existing page structure
-3. Add navigation links in `index.html`
+The web application used in this project was originally developed by [Rahul Kar](https://github.com/rahulkar).
 
-### Styling
-- Main styles are in `css/style.css`
-- Uses CSS Grid and Flexbox for responsive layout
-- CSS custom properties for easy theming
+- **Original Repository:** https://github.com/rahulkar/automation-testing-playground
+- **My Fork:** https://github.com/code-with-nazmul/cypress-testing
 
-## 🤝 Contributing
+This repository is maintained as a personal learning and testing project.
 
-This is a practice site for the testing community! Feel free to:
-- Add new testing scenarios
-- Improve existing functionality
-- Enhance the UI/UX
-- Add more complex test cases
-- Submit bug reports or feature requests
+## License
 
-## 📚 Learning Resources
-
-### Recommended for Beginners
-- **Selenium Documentation**: [selenium.dev](https://selenium.dev)
-- **Cypress Guides**: [cypress.io](https://cypress.io)
-- **Playwright Docs**: [playwright.dev](https://playwright.dev)
-
-### Advanced Testing Concepts
-- Page Object Model (POM)
-- Data-driven testing
-- Cross-browser testing
-- API testing integration
-- CI/CD pipeline integration
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**Server not starting?**
-- Ensure Python is installed: `python --version`
-- Try a different port: `python -m http.server 3000`
-- Check if port 8000 is already in use
-
-**Elements not loading?**
-- Clear browser cache
-- Check browser console for JavaScript errors
-- Ensure all files are in the correct directory structure
-
-**Automation scripts failing?**
-- Verify the correct URL (http://localhost:8000)
-- Check element selectors and IDs
-- Ensure proper wait conditions
-
-## 📄 License
-
-This project is open source and available for educational and testing purposes. Feel free to use, modify, and distribute.
-
-## 👨‍💻 Developer
-
-**Developed by [Rahul Kar](https://www.rahulkar.com/)**
-
----
-
-### 🌟 Star this repository if it helps you with your automation testing journey!
-
-**Keywords**: test automation, selenium practice, free testing site, qa automation, cypress testing, playwright practice, automation training, selenium tutorial, web testing, ui automation
+Please refer to the original project's license and retain the applicable license and attribution notices.
